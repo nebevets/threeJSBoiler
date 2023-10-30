@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import Stats from 'three/examples/jsm/libs/stats.module';
+import Stats from "three/examples/jsm/libs/stats.module";
+import { GUI } from "dat.gui";
+
+const FULL_CIRCLE = Math.PI * 2; // a full 360 degress in radians
 
 const scene = new THREE.Scene();
 
@@ -35,12 +38,21 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// stats and gui are dev only
 const stats = new Stats();
 document.body.appendChild(stats.dom);
 
+const gui = new GUI();
+const cubeFolder = gui.addFolder("Cube");
+cubeFolder.add(cube.rotation, "x", 0, FULL_CIRCLE);
+cubeFolder.add(cube.rotation, "y", 0, FULL_CIRCLE);
+cubeFolder.add(cube.rotation, "z", 0, FULL_CIRCLE);
+const cameraFolder = gui.addFolder("Camera");
+cameraFolder.add(camera.position, "z", 0, 20);
+
 function animate() {
   requestAnimationFrame(animate);
-  render()
+  render();
   stats.update();
 }
 
@@ -48,4 +60,4 @@ function render() {
   renderer.render(scene, camera);
 }
 
-animate()
+animate();
